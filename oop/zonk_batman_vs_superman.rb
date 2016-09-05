@@ -13,7 +13,36 @@
 # if a Superhero has a special_tool their attack is tripled
 # if a Superhero is attacked and their hitpoints are less than 1, they are no longer alive
 # Superhero needs a grab_tool method, that sets the has_special_tool attribute to true.
+module Fighting
+  def hit(superhero)
+    superhero.hitpoints = superhero.hitpoints - @attack
+    if superhero.hitpoints < 1
+      superhero.alive = false
+    end
+  end
 
+  def grab_tool
+    @has_special_tool = true
+    if @has_special_tool == true
+      @attack = @attack * 3
+    end
+  end
+end
+
+class Superhero
+  include Fighting
+
+  attr_reader :name, :has_special_tool
+  attr_accessor :hitpoints, :alive
+
+  def initialize(superhero_hash)
+    @name = superhero_hash[:name]
+    @hitpoints = superhero_hash[:hitpoints]
+    @attack = superhero_hash[:attack]
+    @alive = true
+    @has_special_tool = false
+  end
+end
 
 # Driver code - don't touch anything below this line.
 puts "TESTING the Superhero class..."
@@ -75,7 +104,6 @@ puts "Testing..."
 superman.hit(batman)
 puts "Batman's hitpoints are #{batman.hitpoints}"
 
-
 if batman.hitpoints == 27
   puts "PASS!"
 else
@@ -83,13 +111,11 @@ else
 end
 puts
 
-
 puts "Batman hits Superman"
 puts "Testing..."
 
 batman.hit(superman)
 puts "Superman's hitpoints are #{superman.hitpoints}"
-
 
 if superman.hitpoints == 42
   puts "PASS!"
@@ -104,7 +130,6 @@ puts "• #{superman.name} has #{superman.hitpoints} hitpoints"
 puts "• #{batman.name} has #{batman.hitpoints} hitpoints"
 puts 
 
-
 puts "Batman picks up Kryptonite (tool)"
 puts "Testing..."
 
@@ -116,7 +141,6 @@ else
   puts "F"
 end
 puts
-
 
 5.times do 
   puts "Batman hits Superman"
@@ -131,7 +155,6 @@ else
   puts "F"
 end
 puts
-
 
 puts "Checking Stats..."
 puts
